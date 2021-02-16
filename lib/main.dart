@@ -12,6 +12,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   StreamSubscription _intentDataStreamSubscription;
+  StreamSubscription _intentTextStreamSubscription;
   List<SharedMediaFile> _sharedFiles;
   String _sharedText;
 
@@ -39,7 +40,7 @@ class _MyAppState extends State<MyApp> {
     });
 
     // For sharing or opening urls/text coming from outside the app while the app is in the memory
-    _intentDataStreamSubscription =
+    _intentTextStreamSubscription =
         ReceiveSharingIntent.getTextStream().listen((String value) {
           setState(() {
             _sharedText = value;
@@ -60,7 +61,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    _intentDataStreamSubscription.cancel();
+    _intentDataStreamSubscription?.cancel();
+    _intentTextStreamSubscription?.cancel();
     super.dispose();
   }
 
